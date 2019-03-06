@@ -7,6 +7,7 @@ import ChatList from "./chat/ChatList"
 import FriendsList from "./Friends/FriendsLIst"
 import Login from "./Auth/Login"
 import NewsManager from "../modules/NewsManager"
+import NewsForm from "./news/NewsForm";
 
 class ApplicationViews extends Component {
   state = {
@@ -16,19 +17,72 @@ class ApplicationViews extends Component {
     chat: [],
     friends: []
   }
+
+  // updateNews(editedNewsObject) {
+  //     return NewsManager.updateNews(editedNewsObject)
+  //     .then(() => NewsManager.getAll())
+  //     .then(news => {
+  //       this.setState({
+  //         news: news
+  //       })
+  //     });
+  //   };
+  // }
+
+
+  addNews = news =>
+        NewsManager.addNews(news)
+            .then(() => NewsManager.getAll()) // NOT CORRECT - need to get friends again etc
+            .then(news =>
+            this.setState({
+                news: news
+            })
+    )
+
+
+
+
   componentDidMount() {
 
 
     const newState = {}
 
     // newState.events = {}
-    NewsManager.getAll()
-            .then(news => newState.news = news)
     // newState.tasks = {}
     // newState.chat = {}
     // newState.friends = {}
 
-    .then(() => this.setState(newState))
+
+
+    let currentUserId = sessionStorage.getItem("credentials")
+    //hard coded will use ${currentUserId} eventually
+
+
+// ****** NEWS ******
+
+
+    NewsManager.getFriends(currentUserId)
+      .then(parsedFriendIds => {
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+        idsNeededArray.push(parseInt(currentUserId))
+
+        let newsQuery = ""
+        //create part of the query that will be used in the api
+        idsNeededArray.forEach(id => {
+          newsQuery += `userId=${id}&_expand=user&`
+        })
+        return newsQuery
+      }).then(newsQuery => {
+        return NewsManager.get(`news?${newsQuery}`)
+      })
+      .then(parsedNews => {
+        newState.news = parsedNews
+      }).then(() => this.setState(newState))
+
+
+// ******************
+
+
 
   }
 
@@ -52,11 +106,22 @@ class ApplicationViews extends Component {
       }} />
       <Route exact path="/news" render={props => {
         if (this.isAuthenticated()) {
-        return <NewsList news={this.state.news} />
+        return <NewsList {...props}
+                  news={this.state.news}
+                  /*activeUser={this.state.activeUser}*/ />
         } else {
           return <Redirect to="/login" />
         }
       }} />
+      <Route path="/news/new" render={(props) => {
+          return <NewsForm {...props}
+                      addNews={this.addNews}
+                      activeUser={this.props.activeUser} />
+      }} />
+
+
+
+
       <Route exact path="/tasks" render={props => {
         if (this.isAuthenticated()) {
         return <TasksList />
@@ -78,6 +143,15 @@ class ApplicationViews extends Component {
           return <Redirect to="/login" />
         }
       }} />
+
+
+
+      {/* <Route path="/news/:newsId(\d+)/edit" render={props => {
+                    return <NewsEditForm {...props}
+                              news={this.state.news}
+                              updateNews={this.updateNews}/>
+                }}
+                /> */}
 
 
     </React.Fragment>

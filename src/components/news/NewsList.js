@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
 // use session storage later
-const userId = 3
-
+// const userId = 1
 
 
 export default class NewsList extends Component {
@@ -11,24 +10,22 @@ export default class NewsList extends Component {
         return (
             <React.Fragment>
                 <h1>News</h1>
-                {/* <div className="animalButton">
+                <div className="newsButton">
                     <button type="button"
                             className="btn btn-success"
                             onClick={() => {
-                                this.props.history.push("/animals/new")}
+                                this.props.history.push("/news/new")}
                             }>
-                        Admit Animal
+                        Add News Item
                     </button>
-                </div> */}
+                </div>
                 <section className="newsSection">
                 {
                     this.props.news.map(news =>
-                        <div className="newsCard" key={news.id}>
                             <NewsItem news={news}
                                 // sendHomeAnimal={this.props.sendHomeAnimal}
-                                // history={this.props.history}
+                                history={this.props.history}
                             />
-                        </div>
                     )
                 }
                 </section>
@@ -36,3 +33,14 @@ export default class NewsList extends Component {
         )
     }
 }
+
+
+
+
+
+// .then(newsArray => {
+//     // Sort news by date
+//     let sortedNewsArray = newsArray.sort((a, b) => {
+//         return new Date(b.date) - new Date(a.date)
+//     })
+//     return sortedNewsArray

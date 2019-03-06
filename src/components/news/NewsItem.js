@@ -7,21 +7,23 @@ export default class NewsItem extends Component {
             <React.Fragment>
                 <div key={this.props.news.id} className="newsItem">
                     <div className="card-body">
-                        <h3 className="news--title">{this.props.news.news}</h3>
+                        <h4 className="news--title">{this.props.news.news}</h4>
                             {this.props.news.date}<br />
-                            {this.props.news.newsSynopsis}
+                            {this.props.news.newsSynopsis}<br />
+                            Posted By: {this.props.news.user.username}
                         {/* <Link className="nav-link" to={`/animals/${this.props.animal.id}`}>Details</Link> */}
                         {/* <button
                             type="button"
                             className="btn btn-success"
                             onClick={() => {
-                                this.props.history.push(`/animals/${this.props.animal.id}/edit`)
+                                this.props.history.push(`/news/${this.props.news.id}/edit`)
                             }}
-                            >Edit</button>
-                        <button
+                            >Edit</button> */}
+                        {/* <button
                             onClick={() => this.props.sendHomeAnimal(this.props.animal.id)
                                 .then(() => this.props.history.push("/animals"))}
-                                className="card-link">Delete</button> */}
+                                className="card-link"
+                                >Delete</button> */}
                     </div>
                 </div>
             </React.Fragment>
