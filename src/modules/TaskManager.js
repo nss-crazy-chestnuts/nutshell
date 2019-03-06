@@ -4,11 +4,6 @@ export default {
     get(id) {
         return fetch(`${Settings.remoteURL}/tasks/${id}`).then(e => e.json())
       },
-      delete(id) {
-        return fetch(`${Settings.remoteURL}/tasks/${id}`, {
-          method: "DELETE"
-        }).then(e => e.json())
-      },
       getAll() {
         return fetch(`${Settings.remoteURL}/tasks`).then(e => e.json())
       },
@@ -29,12 +24,5 @@ export default {
           },
           body: JSON.stringify(obj)
         }).then(data => data.json())
-      },
-      removeAndListTask(id) {
-        return fetch(`${Settings.remoteURL}/animals/${id}`, {
-            method: "DELETE"
-        })
-            .then(() => fetch(`${Settings.remoteURL}/animals`).then(e => e.json())
-            )
-    }
+      }
 }

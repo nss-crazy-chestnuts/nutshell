@@ -28,7 +28,6 @@ class ApplicationViews extends Component {
     }
 
     TaskManager.getAll()
-      .then(allTasks => allTasks.filter(task => task.completionStatus === false))
       .then(allTasks => newState.tasks = allTasks)
       .then(() => this.setState(newState))
   }
@@ -40,6 +39,14 @@ class ApplicationViews extends Component {
         tasks: tasks
       }))
     )
+  }
+
+  addNewTask = (obj) => {
+    TaskManager.addTask(obj)
+    .then(() => TaskManager.getAll())
+    .then((tasks => this.setState({
+      tasks: tasks
+    })))
   }
 
 
@@ -71,7 +78,8 @@ class ApplicationViews extends Component {
         if (this.isAuthenticated()) {
           return <TaskList {...props} tasks={this.state.tasks}
             activeUser={this.props.activeUser}
-            completeTask={this.completeTask} />
+            completeTask={this.completeTask}
+            addNewTask={this.addNewTask} />
         } else {
           return <Redirect to="/login" />
         }
