@@ -16,6 +16,21 @@ class Nav extends Component {
               Nutshell
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/events">Events</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/news">News</Link>
+          </li>
+          <li className="nav-item">
+                        <Link className="nav-link" to="/tasks">Tasks</Link>
+                    </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/chat">Chat</Link>
+          </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/friends">Friends</Link>
+          </li>
         </ul>
         <a className="nav-link">Aloha 🌺 {this.props.activeUser.username}</a>
         <button
