@@ -5,7 +5,7 @@ export default class NewsItem extends Component {
         return (
             <React.Fragment>
                 <div key={this.props.news.id} className="newsItem">
-                    <div className="card-body">
+                    <div className={`card-body card ${(this.props.news.userId != sessionStorage.getItem("credentials")) ? "friendItem " : ""}`}>
                         <h4 className="news--title">{this.props.news.news}</h4>
                             {this.props.news.date}<br />
                             {this.props.news.newsSynopsis}<br />
