@@ -17,6 +17,38 @@ class Nutshell extends Component {
  }
   render() {
     return <React.Fragment>
+      <div id="sunglasses"></div>
+      <button id="coolButton">Kool Mode</button>
+      <div id="fall">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         <IsAuth isAuthenticated={this.isAuthenticated} setAuth={this.setAuth} />
       </React.Fragment>
   }
