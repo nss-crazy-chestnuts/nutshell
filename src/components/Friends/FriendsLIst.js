@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 
 class FriendList extends Component {
-
-    timeConverter(timestamp) {
-        let a = new Date(parseInt(timestamp))
-        let timestring = String(a).split(" ")
-        let time = timestring.slice(0, 5).reduce((currentEl, nextEl) => `${currentEl} ${nextEl}`)
-        return time
-    }
-
     render() {
         return (
             <section className="friends">
