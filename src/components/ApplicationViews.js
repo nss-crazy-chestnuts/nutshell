@@ -18,6 +18,10 @@ import FriendManager from "../modules/FriendManager";
 import UserManager from "../modules/UserManager";
 import TaskManager from "../modules/TaskManager";
 import TaskEditForm from "../components/task/TaskEditForm"
+import API from "../modules/EventManager"
+import EventForm from "./event/EventForm"
+import EventEditForm from "./event/EventEditForm"
+
 
 class ApplicationViews extends Component {
   state = {
@@ -28,6 +32,90 @@ class ApplicationViews extends Component {
     expandedFriends: [],
     users: []
   }
+
+  deleteEvent = id => {
+    API.DELETE("events", id)
+      .then(() => {
+        API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
+
+
+
+          const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+          idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
+
+          let eventsQuery = ""
+          //create part of the query that will be used in the api
+          idsNeededArray.forEach(id => {
+            eventsQuery += `userId=${id}&_expand=user&`
+
+            return eventsQuery
+          })
+        })
+      }).then(eventsQuery => {
+        return API.GET(`events?${eventsQuery}`)
+      }).then(parsedEvents => {
+        this.setState({
+          events: parsedEvents
+        })
+      })
+
+  }
+
+  updateEvent = (editedEventObject) => {
+    return API.EDIT(`events/${editedEventObject.id}`, editedEventObject)
+    .then(() => {
+      API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
+
+
+
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+        idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
+
+        let eventsQuery = ""
+        //create part of the query that will be used in the api
+        idsNeededArray.forEach(id => {
+          eventsQuery += `userId=${id}&_expand=user&`
+
+          return eventsQuery
+        })
+      })
+    }).then(eventsQuery => {
+      return API.GET(`events?${eventsQuery}`)
+    }).then(parsedEvents => {
+      this.setState({
+        events: parsedEvents
+      })
+    })
+
+};
+
+
+
+  addEvent = event =>
+
+    API.POST("events", event).then(() => {
+      API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
+
+
+
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+        idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
+
+        let eventsQuery = ""
+        //create part of the query that will be used in the api
+        idsNeededArray.forEach(id => {
+          eventsQuery += `userId=${id}&_expand=user&`
+
+          return eventsQuery
+        })
+      })
+    }).then(eventsQuery => {
+      return API.GET(`events?${eventsQuery}`)
+    }).then(parsedEvents => {
+      this.setState({
+        events: parsedEvents
+      })
+    })
 
   updateNews = editedNewsObject =>
     NewsManager.updateNews(editedNewsObject)
@@ -141,6 +229,21 @@ class ApplicationViews extends Component {
       .then(TaskManager.getAll)
       .then(allTasks => newState.tasks = allTasks)
 
+      .then(() => API.GET(`friendships?userId=${currentUserId}`)).then(parsedFriendIds => {
+
+
+
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+        idsNeededArray.push(parseInt(currentUserId))
+        let eventsQuery = ""
+        //create part of the query that will be used in the api
+        idsNeededArray.forEach(id => {
+          eventsQuery += `userId=${id}&_expand=user&`
+        });
+        return eventsQuery
+      }).then(eventsQuery => {
+        return API.GET(`events?${eventsQuery}`)
+      }).then(parsedEvents => {newState.events = parsedEvents})
 
 
 
@@ -167,15 +270,30 @@ class ApplicationViews extends Component {
             return <Redirect to="/login" />
           }
         }} />
+
+
         <Route exact path="/events" render={props => {
           if (this.isAuthenticated()) {
-            return <EventList />
+            return <EventList {...props}
+              deleteEvent={this.deleteEvent}
+              events={this.state.events} />
           } else {
             return <Redirect to="/login" />
           }
         }} />
-
-
+        <Route exact path="/events/new" render={props => {
+          if (this.isAuthenticated()) {
+            return <EventForm {...props}
+              events={this.state.events} addEvent={this.addEvent} />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route
+          exact path="/events/:eventId(\d+)/edit" render={props => {
+            return <EventEditForm {...props} events={this.state.events} updateEvent={this.updateEvent} />
+          }}
+        />
 
         <Route exact path="/news" render={props => {
           if (this.isAuthenticated()) {
