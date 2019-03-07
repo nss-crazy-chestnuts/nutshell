@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom"
 import HomePage from "./home/HomePage"
 import EventList from "./event/EventList"
 import NewsList from "./news/NewsList"
-import TasksList from "./task/TaskList"
+import TaskList from "./task/TaskList"
 import ChatList from "./chat/ChatList"
 import ChatEditForm from "./chat/ChatEditForm"
 import ChatAddForm from "./chat/ChatAddForm"
@@ -16,6 +16,8 @@ import FriendAddForm from "./Friends/FriendAddForm"
 import ChatManager from "../modules/ChatManager";
 import FriendManager from "../modules/FriendManager";
 import UserManager from "../modules/UserManager";
+import TaskManager from "../modules/TaskManager";
+import TaskEditForm from "../components/task/TaskEditForm"
 
 class ApplicationViews extends Component {
   state = {
@@ -28,18 +30,18 @@ class ApplicationViews extends Component {
   }
 
   updateNews = editedNewsObject =>
-      NewsManager.updateNews(editedNewsObject)
+    NewsManager.updateNews(editedNewsObject)
       .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
-            .then(parsedNews => {
-              this.setState({news: parsedNews})
-            }))
+        .then(parsedNews => {
+          this.setState({ news: parsedNews })
+        }))
 
   addNews = news =>
-      NewsManager.addNews(news)
-          .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
-          .then(parsedNews => {
-            this.setState({news: parsedNews})
-          }))
+    NewsManager.addNews(news)
+      .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
+        .then(parsedNews => {
+          this.setState({ news: parsedNews })
+        }))
 
   addChat = chat =>
     ChatManager.post(chat)
@@ -86,6 +88,35 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
 
+  completeTask = (obj, id) => {
+    TaskManager.editTask(obj, id)
+      .then(() => TaskManager.getAll())
+      .then((tasks => this.setState({
+        tasks: tasks
+      }))
+      )
+  }
+
+  addNewTask = (obj) => {
+    TaskManager.addTask(obj)
+      .then(() => TaskManager.getAll())
+      .then((tasks => this.setState({
+        tasks: tasks
+      })))
+  }
+
+  updateTask = (task, id) => {
+    return TaskManager.updateTask(task, id)
+      .then(() => TaskManager.getAll())
+      .then(tasks =>
+        this.setState({
+          tasks: tasks
+        })
+      )
+  }
+
+  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+
   componentDidMount() {
 
     const newState = {
@@ -106,14 +137,18 @@ class ApplicationViews extends Component {
       .then(FriendManager.fetchWithExpandedUserInfo)
       .then(friends => newState.expandedFriends = friends)
       .then(() => NewsManager.getUserNews(currentUserId))
-      .then(parsedNews => {newState.news = parsedNews})
+      .then(parsedNews => { newState.news = parsedNews })
+      .then(TaskManager.getAll)
+      .then(allTasks => newState.tasks = allTasks)
+
 
 
 
       .then(() => this.setState(newState))
   }
 
-  isAuthenticated = () => sessionStorage.getItem("credentials") !== null
+
+
 
 
 
@@ -123,99 +158,108 @@ class ApplicationViews extends Component {
     return (
       <React.Fragment>
 
-      <Route path="/login" component={Login} />
+        <Route path="/login" component={Login} />
 
-      <Route exact path="/" render={props => {
-        if (this.isAuthenticated()) {
-          return <HomePage />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
-      <Route exact path="/events" render={props => {
-        if (this.isAuthenticated()) {
-          return <EventList />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
+        <Route exact path="/" render={props => {
+          if (this.isAuthenticated()) {
+            return <HomePage />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route exact path="/events" render={props => {
+          if (this.isAuthenticated()) {
+            return <EventList />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
 
 
 
-      <Route exact path="/news" render={props => {
-        if (this.isAuthenticated()) {
-        return <NewsList {...props}
-                  news={this.state.news} />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
-      <Route path="/news/new" render={(props) => {
+        <Route exact path="/news" render={props => {
+          if (this.isAuthenticated()) {
+            return <NewsList {...props}
+              news={this.state.news} />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route path="/news/new" render={(props) => {
           return <NewsForm {...props}
-                      addNews={this.addNews}
-                      activeUser={this.props.activeUser} />
-      }} />
-      <Route path="/news/:newsId(\d+)/edit" render={props => {
-                    return <NewsEditForm {...props}
-                              news={this.state.news}
-                              updateNews={this.updateNews}
-                              activeUser={this.props.activeUser} />
-      }} />
-
-
-
-
-      <Route exact path="/tasks" render={props => {
-        if (this.isAuthenticated()) {
-          return <TasksList />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
-      <Route exact path="/chat" render={props => {
-        if (this.isAuthenticated()) {
-          return <ChatList {...props}
-            chats={this.state.chat}
-            users={this.state.users}
+            addNews={this.addNews}
             activeUser={this.props.activeUser} />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
-      <Route path="/chat/new" render={(props) => {
-        return <ChatAddForm {...props}
-          addChat={this.addChat}
-          chats={this.state.chat}
-          activeUser={this.props.activeUser} />
-      }} />
-      <Route
-        path="/chat/:chatId(\d+)/edit" render={props => {
-          return <ChatEditForm {...props}
-                  chats={this.state.chat}
-                  activeUser={this.props.activeUser}
-                  updateChat={this.updateChat} />
-        }}
-      />
-      <Route exact path="/friends" render={props => {
-        if (this.isAuthenticated()) {
-          return <FriendsList {...props}
-            activeUser={this.props.activeUser}
-            users={this.state.users}
-            friendIDs={this.state.friendIDs}
+        }} />
+        <Route path="/news/:newsId(\d+)/edit" render={props => {
+          return <NewsEditForm {...props}
+            news={this.state.news}
+            updateNews={this.updateNews}
+            activeUser={this.props.activeUser} />
+        }} />
+
+
+
+
+        <Route exact path="/tasks" render={props => {
+          if (this.isAuthenticated()) {
+            return <TaskList {...props} tasks={this.state.tasks}
+              activeUser={this.props.activeUser}
+              completeTask={this.completeTask}
+              addNewTask={this.addNewTask} />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route
+          path="/tasks/:taskId(\d+)/edit" render={props => {
+            return <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask} />
+          }}
+        />
+        <Route exact path="/chat" render={props => {
+          if (this.isAuthenticated()) {
+            return <ChatList {...props}
+              chats={this.state.chat}
+              users={this.state.users}
+              activeUser={this.props.activeUser} />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route path="/chat/new" render={(props) => {
+          return <ChatAddForm {...props}
+            addChat={this.addChat}
+            chats={this.state.chat}
+            activeUser={this.props.activeUser} />
+        }} />
+        <Route
+          path="/chat/:chatId(\d+)/edit" render={props => {
+            return <ChatEditForm {...props}
+              chats={this.state.chat}
+              activeUser={this.props.activeUser}
+              updateChat={this.updateChat} />
+          }}
+        />
+        <Route exact path="/friends" render={props => {
+          if (this.isAuthenticated()) {
+            return <FriendsList {...props}
+              activeUser={this.props.activeUser}
+              users={this.state.users}
+              friendIDs={this.state.friendIDs}
+              addFriend={this.addFriend}
+              deleteFriend={this.deleteFriend}
+              expandedFriends={this.state.expandedFriends} />
+          } else {
+            return <Redirect to="/login" />
+          }
+        }} />
+        <Route path="/friends/new" render={(props) => {
+          return <FriendAddForm {...props}
             addFriend={this.addFriend}
-            deleteFriend={this.deleteFriend}
-            expandedFriends={this.state.expandedFriends} />
-        } else {
-          return <Redirect to="/login" />
-        }
-      }} />
-      <Route path="/friends/new" render={(props) => {
-        return <FriendAddForm {...props}
-          addFriend={this.addFriend}
-          activeUser={this.props.activeUser} />
-      }} />
-    </React.Fragment>
-    )}
+            activeUser={this.props.activeUser} />
+        }} />
+      </React.Fragment>
+    )
+  }
 }
 
 export default ApplicationViews
