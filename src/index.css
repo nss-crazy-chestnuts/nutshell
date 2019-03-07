@@ -8,6 +8,150 @@ body {
   margin: 12px 0 0 0;
   font-size: 0.7em;
 }
+.fallingLeaves {
+  text-align: center;
+}
+.fallingLeaves span {
+  display: inline-block;
+  width: 40px;
+  height: 100px;
+  margin: -280px 40px 54px  -34px;
+  background:url("monster.png");
+  position: relative;
+  top: -200px;
+
+  -webkit-animation: fallingLeaves 10s infinite  linear;
+  -moz-animation: fallingLeaves 10s infinite  linear;
+}
+.fallingLeaves span:nth-child(5n+5) {
+
+  -webkit-animation-delay: 1.3s;
+  -moz-animation-delay: 1.3s;
+}
+.fallingLeaves span:nth-child(3n+2) {
+
+  -webkit-animation-delay: 1.5s;
+  -moz-animation-delay: 1.5s;
+}
+.fallingLeaves span:nth-child(2n+5) {
+
+  -webkit-animation-delay: 1.7s;
+  -moz-animation-delay: 1.7s;
+}
+
+.fallingLeaves span:nth-child(3n+10) {
+
+  -webkit-animation-delay: 2.7s;
+  -moz-animation-delay: 2.7s;
+}
+.fallingLeaves span:nth-child(7n+2) {
+
+  -webkit-animation-delay: 3.5s;
+  -moz-animation-delay: 3.5s;
+}
+.fallingLeaves span:nth-child(4n+5) {
+
+  -webkit-animation-delay: 5.5s;
+  -moz-animation-delay: 5.5s;
+}
+.fallingLeaves span:nth-child(3n+7) {
+
+  -webkit-animation-delay: 8s;
+  -moz-animation-delay: 8s;
+}
+@-webkit-keyframes fallingLeaves {
+0% {
+  opacity: 1;
+
+-webkit-transform: translate(0, 0px) rotateZ(0deg);
+}
+75% {
+  opacity: 1;
+
+-webkit-transform: translate(100px, 600px) rotateZ(270deg); 
+}
+100% {
+  opacity: 0;
+
+-webkit-transform: translate(150px, 800px) rotateZ(360deg);
+}
+}
+@-moz-keyframes fallingLeaves {
+0% {
+  opacity: 1;
+
+-webkit-transform: translate(0, 0px) rotateZ(0deg);
+}
+75% {
+  opacity: 1;
+
+-webkit-transform: translate(100px, 600px) rotateZ(270deg); 
+}
+100% {
+  opacity: 0;
+
+-webkit-transform: translate(150px, 800px) rotateZ(360deg);
+}
+}
+
+
+.fire {
+  background-image: url("https://i.newyorkupstate.com/resizer/krhMPqK10PKv4fxPyCv2NHv1o_Y=/600x0/arc-anglerfish-arc2-prod-advancelocal/public/O4XSX3FHDBB7JIUC4YPF7H4UDY.jpg");
+  background-size: 100%
+}
+
+.sunglasses {
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  width: 200px;
+  height: 200px;
+  background-image: url("https://ak2.picdn.net/shutterstock/videos/859822/thumb/1.jpg");
+  background-size: 270px 200px;
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  font-family: cursive;
+  animation: App-logo-spin infinite 2s linear, rainbow infinite 1s alternate;
+  border-radius: 100%;
+}
+
+@keyframes example {
+  0%   {color: red;}
+  25%  {color: yellow;}
+  50%  {color: blue;}
+  100% {color: green;}
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.title {
+  font-family: cursive;
+  font-size: 60px;
+}
+
+
+.spin {
+  animation: App-logo-spin infinite 2s linear, rainbow infinite 1s alternate;
+}
+
+@keyframes rainbow {
+  0%   {color: red;}
+  12%  {color: orange;}
+  25%  {color: yellow;}
+  37%  {color: green;}
+  50%  {color: turquoise;}
+  62%  {color: blue;}
+  75% {color: indigo;}
+  88% {color: violet;}
+  100% {color: pink;}
+}
 
 .navbar {
   background-color: white;

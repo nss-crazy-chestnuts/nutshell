@@ -25,7 +25,7 @@ export default class FriendAddForm extends Component {
                 window.alert("Please enter a user");
             } else if (this.state.username === this.props.activeUser.username) {
                 window.alert("Can't friend yourself")
-            } else if (friendId !== undefined && this.props.expandedFriends.filter(currentFriend => currentFriend.friendId === friendId.id).length > 0) {
+            } else if (friendId !== undefined && this.props.expandedFriends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials"))).filter(currentFriend => currentFriend.friendId === friendId.id).length > 0) {
                 window.alert("You are already friends with this user")
             }else {
                 if (friendId !== undefined) {
