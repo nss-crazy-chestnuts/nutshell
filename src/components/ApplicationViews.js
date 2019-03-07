@@ -115,14 +115,16 @@ class ApplicationViews extends Component {
 
           return eventsQuery
         })
+        return eventsQuery
       })
-    }).then(eventsQuery => {
+   .then(eventsQuery => {
       return API.GET(`events?${eventsQuery}`)
     }).then(parsedEvents => {
       this.setState({
         events: parsedEvents
       })
     })
+  })
 
   updateNews = editedNewsObject =>
     NewsManager.updateNews(editedNewsObject)
