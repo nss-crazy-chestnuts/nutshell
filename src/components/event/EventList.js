@@ -10,7 +10,7 @@ class EventsList extends Component {
         let flag = true;
         return (
             <React.Fragment>
-                { <div className="eventButton">
+                {<div className="eventButton">
                     <button type="button"
                         className="btn btn-success"
                         onClick={() => {
@@ -38,35 +38,44 @@ class EventsList extends Component {
                     }).map(event =>
 
                         <div key={event.id} className={`card ${(event.userId != sessionStorage.getItem("credentials")) ? "friendItem" : ""}${flag ? "firstEvent" : ""}`}>
-                        {flag = false}
+                            {flag = false}
                             <div className="card-body">
                                 <h5 className="card-title">
-                                User: {event.user.username}
+                                    User: {event.user.username}
                                     <div>
                                         Event: {event.eventName}
                                     </div>
                                     <div>
                                         Location: {event.eventLocation}
                                     </div>
-                                    <div>
-                                        Date: {event.eventDate}
-                                    </div>
-                                    {<>
-                                        <button
-                                        type="button"
-                                        className="btn btn-success"
-                                        onClick={() => {
-                                            this.props.history.push(`/events/${event.id}/edit`);
-                                        }}
-                                    >
-                                        Edit
-                                    </button>
 
-                                        <a href="#"
-                                        onClick={() => this.props.deleteEvent(event.id)}
-                                        className="card-link">Delete</a>
-                                        </>
-                                        }
+                                    {
+                                        (event.userId === sessionStorage.getItem("credentials")) ? (
+                                            <>
+                                                <div>
+                                                    Date: {event.eventDate}
+                                                </div>
+
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-success"
+                                                    onClick={() => {
+                                                        this.props.history.push(`/events/${event.id}/edit`);
+                                                    }}
+                                                >
+                                                    Edit
+                                                 </button>
+
+
+
+
+                                                <a href="#"
+                                                    onClick={() => this.props.deleteEvent(event.id)}
+                                                    className="card-link">Delete</a>
+
+                                            </>
+                                        ) : ("")
+                                    }
 
                                 </h5>
                             </div>
