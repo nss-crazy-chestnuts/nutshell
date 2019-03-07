@@ -38,7 +38,7 @@ export default class TaskInputForm extends Component {
     return (
       <React.Fragment>
         {/* // Task name form field */}
-        <div className="container mb-4">
+        <div className="container my-4">
           <form className="taskForm form row">
             <div className="form-group col-md-4">
               <label htmlFor="taskName">Task Name:</label>

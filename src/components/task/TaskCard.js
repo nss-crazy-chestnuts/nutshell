@@ -26,28 +26,31 @@ export default class TaskCard extends Component {
     render() {
         return (
             //Build Task Cards
-            <div className="container mb-4">
+            <div className="container my-4">
                 <div key={this.props.task.id} className="card card-body">
                     <h5 className="card-title">{`To do: ${this.props.task.taskName}`}</h5>
                     <div className="card-subtitle mb-3">{`Complete by: ${this.props.task.completionDate}`}</div>
                     <div>
+                        <form>
                         <button type="button"
-                            className="btn btn-primary mr-1"
+                            className="btn btn-primary"
                             onClick={() => {
                                 this.props.history.push(`/tasks/${this.props.task.id}/edit`);
                             }}
                         >Edit</button>
-                        <form>
-                            <label>
-                                Complete
-                            <input
+                            <div class="form-check form-check-inline d-flex justify-content-end">
+                                <input
+                                    className="form-check-input "
                                     name="completionStatus"
                                     type="checkbox"
                                     id="completionStatus"
                                     value={this.state.completionStatus}
                                     checked={this.state.completionStatus}
                                     onChange={this.handleInputChange} />
-                            </label>
+                            <label className="form-check-label">
+                                Complete
+                                </label>
+                            </div>
                         </form>
                     </div>
                 </div>
