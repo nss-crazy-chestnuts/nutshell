@@ -21,8 +21,8 @@ export default class NewsList extends Component {
                     this.props.news.map(news =>
                         <div key={news.id}>
                             <NewsItem news={news}
-                                // sendHomeAnimal={this.props.sendHomeAnimal}
                                 history={this.props.history}
+                                deleteNews={this.props.deleteNews}
                             />
                         </div>
                     )

@@ -131,6 +131,13 @@ class ApplicationViews extends Component {
           this.setState({ news: parsedNews })
         }))
 
+  deleteNews = id =>
+    NewsManager.delete(id)
+    .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
+        .then(parsedNews => {
+          this.setState({ news: parsedNews })
+        }))
+
   addChat = chat =>
     ChatManager.post(chat)
       .then(() => ChatManager.getAll())
@@ -165,7 +172,6 @@ class ApplicationViews extends Component {
 
   deleteFriend = (friendId) => {
     const newState = {}
-
     return FriendManager.removeAndList(friendId)
       .then(friends =>
         newState.friends = friends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials")))
@@ -298,7 +304,8 @@ class ApplicationViews extends Component {
         <Route exact path="/news" render={props => {
           if (this.isAuthenticated()) {
             return <NewsList {...props}
-              news={this.state.news} />
+              news={this.state.news}
+              deleteNews={this.deleteNews} />
           } else {
             return <Redirect to="/login" />
           }
