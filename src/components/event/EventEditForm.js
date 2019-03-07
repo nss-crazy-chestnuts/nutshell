@@ -21,13 +21,16 @@ export default class EventEditForm extends Component {
 
         const editedEvent = {
           id: this.props.match.params.eventId,
+          userId: this.state.userId,
           eventName: this.state.eventName,
           eventLocation: this.state.eventLocation,
           eventDate: this.state.eventDate
         };
-console.log(editedEvent)
+
     this.props.updateEvent(editedEvent)
-    .then(() => this.props.history.push("/events"))
+    .then(() => {
+      console.log("2")
+      this.props.history.push("/events")})
 
   }
 
