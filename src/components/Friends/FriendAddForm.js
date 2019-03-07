@@ -21,9 +21,6 @@ export default class FriendAddForm extends Component {
         UserManager.getAll()
         .then(users => {
             const friendId = users.find(currentUser => currentUser.username === this.state.username)
-
-            console.log(this.props.expandedFriends.filter(currentFriend => currentFriend.friendId === friendId))
-
             if (this.state.username === "") {
                 window.alert("Please enter a user");
             } else if (this.state.username === this.props.activeUser.username) {
