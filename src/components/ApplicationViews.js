@@ -21,7 +21,7 @@ import TaskEditForm from "../components/task/TaskEditForm"
 import API from "../modules/EventManager"
 import EventForm from "./event/EventForm"
 import EventEditForm from "./event/EventEditForm"
-
+import "./common.css"
 
 class ApplicationViews extends Component {
   state = {
