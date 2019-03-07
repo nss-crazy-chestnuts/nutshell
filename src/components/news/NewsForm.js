@@ -6,7 +6,7 @@ export default class NewsForm extends Component {
     news: "",
     newsSynopsis: "",
     date: "",
-    newsHTML: ""
+    newsURL: ""
   }
 
   // Update state whenever an input field is edited
@@ -27,7 +27,7 @@ export default class NewsForm extends Component {
         news: this.state.newsHeadline,
         newsSynopsis: this.state.newsSynopsis,
         date: Date().split(" ").splice(0, 4).join(" "),
-        newsHTML: this.state.newsHTML
+        newsURL: this.state.newsURL
       }
 
       // Create the animal and redirect user to animal list

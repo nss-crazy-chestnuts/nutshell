@@ -50,41 +50,47 @@ class ApplicationViews extends Component {
 
             return eventsQuery
           })
+          return eventsQuery
         })
-      }).then(eventsQuery => {
-        return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => {
-        this.setState({
-          events: parsedEvents
-        })
+          .then(eventsQuery => {
+            return API.GET(`events?${eventsQuery}`)
+          }).then(parsedEvents => {
+            this.setState({
+              events: parsedEvents
+            })
+          })
       })
 
   }
 
   updateEvent = (editedEventObject) => {
+
     return API.EDIT(`events/${editedEventObject.id}`, editedEventObject)
       .then(() => {
-        API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
+        let eventsQuery = ""
+        return API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
 
 
 
           const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
           idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
 
-          let eventsQuery = ""
+
           //create part of the query that will be used in the api
           idsNeededArray.forEach(id => {
             eventsQuery += `userId=${id}&_expand=user&`
 
             return eventsQuery
           })
+          return eventsQuery
         })
-      }).then(eventsQuery => {
-        return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => {
-        this.setState({
-          events: parsedEvents
-        })
+          .then(eventsQuery => {
+            return API.GET(`events?${eventsQuery}`)
+          }).then(parsedEvents => {
+            this.setState({
+              events: parsedEvents
+            })
+          })
       })
 
   };
@@ -108,14 +114,16 @@ class ApplicationViews extends Component {
 
           return eventsQuery
         })
+        return eventsQuery
       })
-    }).then(eventsQuery => {
+   .then(eventsQuery => {
       return API.GET(`events?${eventsQuery}`)
     }).then(parsedEvents => {
       this.setState({
         events: parsedEvents
       })
     })
+  })
 
   updateNews = editedNewsObject =>
     NewsManager.updateNews(editedNewsObject)
@@ -127,6 +135,13 @@ class ApplicationViews extends Component {
   addNews = news =>
     NewsManager.addNews(news)
       .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
+        .then(parsedNews => {
+          this.setState({ news: parsedNews })
+        }))
+
+  deleteNews = id =>
+    NewsManager.delete(id)
+    .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
         .then(parsedNews => {
           this.setState({ news: parsedNews })
         }))
@@ -164,16 +179,19 @@ class ApplicationViews extends Component {
   }
 
   deleteFriend = (friendId) => {
-    const newState = {}
 
-    return FriendManager.removeAndList(friendId)
-      .then(friends =>
-        newState.friends = friends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials")))
-          .map(currentFriend => currentFriend.friendId)
-      )
-      .then(FriendManager.fetchWithExpandedUserInfo)
-      .then(friends => newState.expandedFriends = friends)
-      .then(() => this.setState(newState))
+    if (window.confirm("Are you sure you want to delete this friend?")) {
+      const newState = {}
+
+      return FriendManager.removeAndList(friendId)
+        .then(friends =>
+          newState.friends = friends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials")))
+            .map(currentFriend => currentFriend.friendId)
+        )
+        .then(FriendManager.fetchWithExpandedUserInfo)
+        .then(friends => newState.expandedFriends = friends)
+        .then(() => this.setState(newState))
+    }
   }
 
   completeTask = (obj, id) => {
@@ -269,9 +287,7 @@ class ApplicationViews extends Component {
   render() {
     return (
       <React.Fragment>
-
         <Route path="/login" component={Login} />
-
         <Route exact path="/" render={props => {
           if (this.isAuthenticated()) {
             return <HomePage />
@@ -279,8 +295,6 @@ class ApplicationViews extends Component {
             return <Redirect to="/login" />
           }
         }} />
-
-
         <Route exact path="/events" render={props => {
           if (this.isAuthenticated()) {
             return <EventList {...props}
@@ -307,7 +321,8 @@ class ApplicationViews extends Component {
         <Route exact path="/news" render={props => {
           if (this.isAuthenticated()) {
             return <NewsList {...props}
-              news={this.state.news} />
+              news={this.state.news}
+              deleteNews={this.deleteNews} />
           } else {
             return <Redirect to="/login" />
           }
@@ -323,10 +338,6 @@ class ApplicationViews extends Component {
             updateNews={this.updateNews}
             activeUser={this.props.activeUser} />
         }} />
-
-
-
-
         <Route exact path="/tasks" render={props => {
           if (this.isAuthenticated()) {
             return <TaskList {...props}
@@ -384,6 +395,7 @@ class ApplicationViews extends Component {
         <Route path="/friends/new" render={(props) => {
           return <FriendAddForm {...props}
             addFriend={this.addFriend}
+            expandedFriends={this.state.expandedFriends}
             activeUser={this.props.activeUser} />
         }} />
       </React.Fragment>
