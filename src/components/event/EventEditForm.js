@@ -18,7 +18,6 @@ export default class EventEditForm extends Component {
     updateExistingEvent = evt => {
       evt.preventDefault()
 
-
         const editedEvent = {
           id: this.props.match.params.eventId,
           userId: this.state.userId,
@@ -36,7 +35,6 @@ export default class EventEditForm extends Component {
 
     componentDidMount() {
 
-
       API.GET(`events/${this.props.match.params.eventId}`)
       .then(event => {
         this.setState({
@@ -47,7 +45,6 @@ export default class EventEditForm extends Component {
         });
       });
     }
-
 
     render() {
       return (
