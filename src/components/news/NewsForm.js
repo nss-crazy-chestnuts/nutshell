@@ -23,7 +23,7 @@ export default class NewsForm extends Component {
   constructNewNews = evt => {
     evt.preventDefault()
       const news = {
-        userId: parseInt(sessionStorage.getItem("credentials")),
+        userId: parseInt(this.props.activeUser.id),
         news: this.state.newsHeadline,
         newsSynopsis: this.state.newsSynopsis,
         date: Date().split(" ").splice(0, 4).join(" "),

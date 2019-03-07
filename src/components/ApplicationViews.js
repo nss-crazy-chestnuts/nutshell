@@ -32,12 +32,22 @@ class ApplicationViews extends Component {
 
   addNews = news =>
         NewsManager.addNews(news)
-            .then(() => NewsManager.getAll()) // NOT CORRECT - need to get friends again etc
-            .then(news =>
-            this.setState({
-                news: news
+            .then(() => NewsManager.getFriends(parseInt(sessionStorage.getItem("credentials")))
+            .then(parsedFriendIds => {
+              const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId)
+              idsNeededArray.push(parseInt(parseInt(sessionStorage.getItem("credentials"))))
+
+              let newsQuery = ""
+              idsNeededArray.forEach(id => {
+                newsQuery += `userId=${id}&_expand=user&`
+              })
+              return newsQuery
+            }).then(newsQuery => {
+              return NewsManager.get(`news?${newsQuery}`)
             })
-    )
+            .then(parsedNews => {
+              this.setState({news: parsedNews})
+            }))
 
 
 
@@ -63,11 +73,10 @@ class ApplicationViews extends Component {
 
     NewsManager.getFriends(currentUserId)
       .then(parsedFriendIds => {
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId)
         idsNeededArray.push(parseInt(currentUserId))
 
         let newsQuery = ""
-        //create part of the query that will be used in the api
         idsNeededArray.forEach(id => {
           newsQuery += `userId=${id}&_expand=user&`
         })
