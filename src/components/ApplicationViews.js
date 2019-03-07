@@ -51,6 +51,7 @@ class ApplicationViews extends Component {
       return API.GET(`events?${eventsQuery}`)
     }).then(parsedEvents => {
 
+
       newState.events = parsedEvents
       newState.news = {}
       newState.tasks = {}

@@ -7,6 +7,7 @@ class EventsList extends Component {
 
 
     render() {
+        let flag = true;
         return (
             <React.Fragment>
                 { <div className="eventButton">
@@ -36,10 +37,11 @@ class EventsList extends Component {
                         return new Date(eventA.eventDate) - new Date(eventB.eventDate);
                     }).map(event =>
 
-                        <div key={event.id} className={`card ${(event.userId != sessionStorage.getItem("credentials")) ? "friendItem" : ""}`}>
+                        <div key={event.id} className={`card ${(event.userId != sessionStorage.getItem("credentials")) ? "friendItem" : ""}${flag ? "firstEvent" : ""}`}>
+                        {flag = false}
                             <div className="card-body">
                                 <h5 className="card-title">
-
+                                User: {event.user.username}
                                     <div>
                                         Event: {event.eventName}
                                     </div>
