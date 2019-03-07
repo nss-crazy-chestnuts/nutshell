@@ -22,10 +22,12 @@ export default class NewsList extends Component {
                 <section className="newsSection">
                 {
                     this.props.news.map(news =>
+                        <div key={news.id}>
                             <NewsItem news={news}
                                 // sendHomeAnimal={this.props.sendHomeAnimal}
                                 history={this.props.history}
                             />
+                        </div>
                     )
                 }
                 </section>

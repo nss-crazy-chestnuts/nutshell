@@ -63,13 +63,13 @@ export default class NewsForm extends Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="newsHTML">Link</label>
+            <label htmlFor="newsURL">Link</label>
             <input
               type="text"
               required
               className="form-control"
               onChange={this.handleFieldChange}
-              id="newsHTHM"
+              id="newsURL"
               placeholder="http://www.example.com"
             />
           </div>

@@ -8,6 +8,7 @@ import FriendsList from "./Friends/FriendsLIst"
 import Login from "./Auth/Login"
 import NewsManager from "../modules/NewsManager"
 import NewsForm from "./news/NewsForm";
+import NewsEditForm from "./news/NewsEditForm";
 
 class ApplicationViews extends Component {
   state = {
@@ -18,36 +19,19 @@ class ApplicationViews extends Component {
     friends: []
   }
 
-  // updateNews(editedNewsObject) {
-  //     return NewsManager.updateNews(editedNewsObject)
-  //     .then(() => NewsManager.getAll())
-  //     .then(news => {
-  //       this.setState({
-  //         news: news
-  //       })
-  //     });
-  //   };
-  // }
-
-
-  addNews = news =>
-        NewsManager.addNews(news)
-            .then(() => NewsManager.getFriends(parseInt(sessionStorage.getItem("credentials")))
-            .then(parsedFriendIds => {
-              const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId)
-              idsNeededArray.push(parseInt(parseInt(sessionStorage.getItem("credentials"))))
-
-              let newsQuery = ""
-              idsNeededArray.forEach(id => {
-                newsQuery += `userId=${id}&_expand=user&`
-              })
-              return newsQuery
-            }).then(newsQuery => {
-              return NewsManager.get(`news?${newsQuery}`)
-            })
+  updateNews = editedNewsObject =>
+      NewsManager.updateNews(editedNewsObject)
+      .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
             .then(parsedNews => {
               this.setState({news: parsedNews})
             }))
+
+  addNews = news =>
+      NewsManager.addNews(news)
+          .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
+          .then(parsedNews => {
+            this.setState({news: parsedNews})
+          }))
 
 
 
@@ -68,28 +52,17 @@ class ApplicationViews extends Component {
     //hard coded will use ${currentUserId} eventually
 
 
-// ****** NEWS ******
 
 
-    NewsManager.getFriends(currentUserId)
-      .then(parsedFriendIds => {
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId)
-        idsNeededArray.push(parseInt(currentUserId))
 
-        let newsQuery = ""
-        idsNeededArray.forEach(id => {
-          newsQuery += `userId=${id}&_expand=user&`
-        })
-        return newsQuery
-      }).then(newsQuery => {
-        return NewsManager.get(`news?${newsQuery}`)
-      })
+    NewsManager.getUserNews(currentUserId)
       .then(parsedNews => {
         newState.news = parsedNews
-      }).then(() => this.setState(newState))
+      })
+
+      .then(() => this.setState(newState))
 
 
-// ******************
 
 
 
@@ -99,7 +72,7 @@ class ApplicationViews extends Component {
 
   render() {
 
-    console.log(this.props.activeUser)
+
 
 
 
@@ -113,11 +86,13 @@ class ApplicationViews extends Component {
           return <Redirect to="/login" />
         }
       }} />
+
+
+{/* NEWS ROUTES */}
       <Route exact path="/news" render={props => {
         if (this.isAuthenticated()) {
         return <NewsList {...props}
-                  news={this.state.news}
-                  /*activeUser={this.state.activeUser}*/ />
+                  news={this.state.news} />
         } else {
           return <Redirect to="/login" />
         }
@@ -127,7 +102,13 @@ class ApplicationViews extends Component {
                       addNews={this.addNews}
                       activeUser={this.props.activeUser} />
       }} />
-
+      <Route path="/news/:newsId(\d+)/edit" render={props => {
+                    return <NewsEditForm {...props}
+                              news={this.state.news}
+                              updateNews={this.updateNews}
+                              activeUser={this.props.activeUser} />
+      }} />
+{/* *** *** *** */}
 
 
 
@@ -155,12 +136,6 @@ class ApplicationViews extends Component {
 
 
 
-      {/* <Route path="/news/:newsId(\d+)/edit" render={props => {
-                    return <NewsEditForm {...props}
-                              news={this.state.news}
-                              updateNews={this.updateNews}/>
-                }}
-                /> */}
 
 
     </React.Fragment>

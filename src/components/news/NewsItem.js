@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom"
 
 export default class NewsItem extends Component {
     render() {
@@ -11,14 +10,13 @@ export default class NewsItem extends Component {
                             {this.props.news.date}<br />
                             {this.props.news.newsSynopsis}<br />
                             Posted By: {this.props.news.user.username}
-                        {/* <Link className="nav-link" to={`/animals/${this.props.animal.id}`}>Details</Link> */}
-                        {/* <button
+                        <button
                             type="button"
                             className="btn btn-success"
                             onClick={() => {
                                 this.props.history.push(`/news/${this.props.news.id}/edit`)
                             }}
-                            >Edit</button> */}
+                            >Edit</button>
                         {/* <button
                             onClick={() => this.props.sendHomeAnimal(this.props.animal.id)
                                 .then(() => this.props.history.push("/animals"))}

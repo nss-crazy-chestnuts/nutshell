@@ -15,8 +15,21 @@ export default {
       method: "DELETE"
     }).then(e => e.json())
   },
-  getFriends(userId) {
-    return fetch(`${Settings.remoteURL}/friendships?userId=${userId}`).then(e => e.json())
+  getUserNews(userId) {
+    return fetch(`${Settings.remoteURL}/friendships?userId=${userId}`)
+    .then(e => e.json())
+    .then(parsedFriendIds => {
+        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId)
+        idsNeededArray.push(parseInt(userId))
+
+        let newsQuery = ""
+        idsNeededArray.forEach(id => {
+          newsQuery += `userId=${id}&_expand=user&`
+        })
+        return newsQuery
+      }).then(newsQuery => {
+        return this.get(`news?${newsQuery}`)
+      })
   },
   addNews(news) {
     return fetch(`${Settings.remoteURL}/news`, {
@@ -26,8 +39,14 @@ export default {
         },
         body: JSON.stringify(news)
         }).then(data => data.json())
+  },
+  updateNews (editedNews) {
+    return fetch(`${Settings.remoteURL}/news/${editedNews.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedNews)
+    }).then(data => data.json());
   }
-//   getNewsToShow(idsToFind) {
-//     return fetch(`${Settings.remoteURL}/news?_expand=user&userId=${idsToFind.join("&userId=")}`).then(e => e.json())
-//   }
 }
