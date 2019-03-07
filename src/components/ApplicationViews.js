@@ -63,31 +63,31 @@ class ApplicationViews extends Component {
 
   updateEvent = (editedEventObject) => {
     return API.EDIT(`events/${editedEventObject.id}`, editedEventObject)
-    .then(() => {
-      API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
+      .then(() => {
+        API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
 
 
 
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-        idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
+          const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+          idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
 
-        let eventsQuery = ""
-        //create part of the query that will be used in the api
-        idsNeededArray.forEach(id => {
-          eventsQuery += `userId=${id}&_expand=user&`
+          let eventsQuery = ""
+          //create part of the query that will be used in the api
+          idsNeededArray.forEach(id => {
+            eventsQuery += `userId=${id}&_expand=user&`
 
-          return eventsQuery
+            return eventsQuery
+          })
+        })
+      }).then(eventsQuery => {
+        return API.GET(`events?${eventsQuery}`)
+      }).then(parsedEvents => {
+        this.setState({
+          events: parsedEvents
         })
       })
-    }).then(eventsQuery => {
-      return API.GET(`events?${eventsQuery}`)
-    }).then(parsedEvents => {
-      this.setState({
-        events: parsedEvents
-      })
-    })
 
-};
+  };
 
 
 
@@ -202,6 +202,15 @@ class ApplicationViews extends Component {
         })
       )
   }
+  patchTask = (task, id) => {
+    return TaskManager.patchTask(task, id)
+      .then(() => TaskManager.getAll())
+      .then(tasks =>
+        this.setState({
+          tasks: tasks
+        })
+      )
+  }
 
   isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
@@ -243,7 +252,7 @@ class ApplicationViews extends Component {
         return eventsQuery
       }).then(eventsQuery => {
         return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => {newState.events = parsedEvents})
+      }).then(parsedEvents => { newState.events = parsedEvents })
 
 
 
@@ -320,7 +329,9 @@ class ApplicationViews extends Component {
 
         <Route exact path="/tasks" render={props => {
           if (this.isAuthenticated()) {
-            return <TaskList {...props} tasks={this.state.tasks}
+            return <TaskList {...props}
+              patchTask={this.patchTask}
+              tasks={this.state.tasks}
               activeUser={this.props.activeUser}
               completeTask={this.completeTask}
               addNewTask={this.addNewTask} />

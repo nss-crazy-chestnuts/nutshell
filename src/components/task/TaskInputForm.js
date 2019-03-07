@@ -22,7 +22,6 @@ export default class TaskInputForm extends Component {
   */
   constructNewTask = evt => {
     evt.preventDefault();
-    console.log(this.props.activeUser.id)
     const task = {
       userId: this.props.activeUser.id,
       taskName: this.state.taskName,
@@ -63,14 +62,14 @@ export default class TaskInputForm extends Component {
                 id="completionDate"
                 placeholder="Date"
               />
-              </div>
+            </div>
           </form>
-              <button
-                type="submit"
-                onClick={this.constructNewTask}
-                className="taskButton btn btn-primary"
-                >
-                Submit
+          <button
+            type="submit"
+            onClick={this.constructNewTask}
+            className="taskButton btn btn-primary"
+          >
+            Submit
                       </button>
         </div>
       </React.Fragment>
