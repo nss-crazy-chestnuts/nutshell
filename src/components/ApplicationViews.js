@@ -50,44 +50,51 @@ class ApplicationViews extends Component {
 
             return eventsQuery
           })
+          return eventsQuery
         })
-      }).then(eventsQuery => {
-        return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => {
-        this.setState({
-          events: parsedEvents
-        })
+          .then(eventsQuery => {
+            return API.GET(`events?${eventsQuery}`)
+          }).then(parsedEvents => {
+            this.setState({
+              events: parsedEvents
+            })
+          })
       })
 
   }
 
   updateEvent = (editedEventObject) => {
+
     return API.EDIT(`events/${editedEventObject.id}`, editedEventObject)
-    .then(() => {
-      API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
-
-
-
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-        idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
-
+      .then(() => {
         let eventsQuery = ""
-        //create part of the query that will be used in the api
-        idsNeededArray.forEach(id => {
-          eventsQuery += `userId=${id}&_expand=user&`
+        return API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
 
+
+
+          const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
+          idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
+
+
+          //create part of the query that will be used in the api
+          idsNeededArray.forEach(id => {
+            eventsQuery += `userId=${id}&_expand=user&`
+
+            return eventsQuery
+          })
           return eventsQuery
         })
+          .then(eventsQuery => {
+            return API.GET(`events?${eventsQuery}`)
+          }).then(parsedEvents => {
+            this.setState({
+              events: parsedEvents
+            })
+          })
       })
-    }).then(eventsQuery => {
-      return API.GET(`events?${eventsQuery}`)
-    }).then(parsedEvents => {
-      this.setState({
-        events: parsedEvents
-      })
-    })
 
-};
+  };
+
 
 
 
@@ -253,7 +260,7 @@ class ApplicationViews extends Component {
         return eventsQuery
       }).then(eventsQuery => {
         return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => {newState.events = parsedEvents})
+      }).then(parsedEvents => { newState.events = parsedEvents })
 
 
 
