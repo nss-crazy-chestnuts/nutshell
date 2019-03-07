@@ -164,16 +164,19 @@ class ApplicationViews extends Component {
   }
 
   deleteFriend = (friendId) => {
-    const newState = {}
 
-    return FriendManager.removeAndList(friendId)
-      .then(friends =>
-        newState.friends = friends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials")))
-          .map(currentFriend => currentFriend.friendId)
-      )
-      .then(FriendManager.fetchWithExpandedUserInfo)
-      .then(friends => newState.expandedFriends = friends)
-      .then(() => this.setState(newState))
+    if (window.confirm("Are you sure you want to delete this friend?")) {
+      const newState = {}
+
+      return FriendManager.removeAndList(friendId)
+        .then(friends =>
+          newState.friends = friends.filter(currentFriend => currentFriend.userId === parseInt(sessionStorage.getItem("credentials")))
+            .map(currentFriend => currentFriend.friendId)
+        )
+        .then(FriendManager.fetchWithExpandedUserInfo)
+        .then(friends => newState.expandedFriends = friends)
+        .then(() => this.setState(newState))
+    }
   }
 
   completeTask = (obj, id) => {
@@ -260,9 +263,7 @@ class ApplicationViews extends Component {
   render() {
     return (
       <React.Fragment>
-
         <Route path="/login" component={Login} />
-
         <Route exact path="/" render={props => {
           if (this.isAuthenticated()) {
             return <HomePage />
@@ -270,8 +271,6 @@ class ApplicationViews extends Component {
             return <Redirect to="/login" />
           }
         }} />
-
-
         <Route exact path="/events" render={props => {
           if (this.isAuthenticated()) {
             return <EventList {...props}
@@ -314,10 +313,6 @@ class ApplicationViews extends Component {
             updateNews={this.updateNews}
             activeUser={this.props.activeUser} />
         }} />
-
-
-
-
         <Route exact path="/tasks" render={props => {
           if (this.isAuthenticated()) {
             return <TaskList {...props} tasks={this.state.tasks}
@@ -373,6 +368,7 @@ class ApplicationViews extends Component {
         <Route path="/friends/new" render={(props) => {
           return <FriendAddForm {...props}
             addFriend={this.addFriend}
+            expandedFriends={this.state.expandedFriends}
             activeUser={this.props.activeUser} />
         }} />
       </React.Fragment>
