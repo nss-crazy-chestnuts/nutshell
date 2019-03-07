@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
-// use session storage later
-// const userId = 1
-
 
 export default class NewsList extends Component {
     render() {
@@ -35,14 +32,3 @@ export default class NewsList extends Component {
         )
     }
 }
-
-
-
-
-
-// .then(newsArray => {
-//     // Sort news by date
-//     let sortedNewsArray = newsArray.sort((a, b) => {
-//         return new Date(b.date) - new Date(a.date)
-//     })
-//     return sortedNewsArray

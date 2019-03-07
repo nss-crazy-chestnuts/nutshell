@@ -49,11 +49,6 @@ class ApplicationViews extends Component {
 
 
     let currentUserId = sessionStorage.getItem("credentials")
-    //hard coded will use ${currentUserId} eventually
-
-
-
-
 
     NewsManager.getUserNews(currentUserId)
       .then(parsedNews => {
@@ -61,8 +56,6 @@ class ApplicationViews extends Component {
       })
 
       .then(() => this.setState(newState))
-
-
 
 
 
