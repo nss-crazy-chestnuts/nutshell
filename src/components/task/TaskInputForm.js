@@ -39,38 +39,40 @@ export default class TaskInputForm extends Component {
     return (
       <React.Fragment>
         {/* // Task name form field */}
+        <div className="container mb-4">
         <form className="taskForm">
           <div className="form-group">
             <label htmlFor="taskName">Task Name:</label>
             <input
               type="text"
               required
-              className="taskName"
+              className="taskName form-control col-md-4"
               onChange={this.handleFieldChange}
               id="taskName"
               placeholder="Task Name"
             />
           </div>
           {/* Task date form field */}
-          <div className="form-group">
             <label htmlFor="completionDate">Completion Date:</label>
+          <div className="form-group">
             <input
               type="date"
               required
-              className="dateForm taskForm"
+              className="dateForm taskForm form-control col-md-2"
               onChange={this.handleFieldChange}
               id="completionDate"
               placeholder="Date"
             />
-          </div>
           <button
             type="submit"
             onClick={this.constructNewTask}
-            className="taskButton"
-          >
+            className="taskButton btn btn-primary mt-3"
+            >
             Submit
                       </button>
+            </div>
         </form>
+        </div>
       </React.Fragment>
     );
   }

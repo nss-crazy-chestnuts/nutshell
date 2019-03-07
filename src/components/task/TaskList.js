@@ -7,7 +7,7 @@ export default class TaskList extends Component {
     render() {
         return (
             <React.Fragment>
-                <h1>Tasks</h1>
+                <h1 className="text-center">Tasks</h1>
                 {/* Build task input form */}
                 <div className="create_task_form">
                     <TaskInputForm addNewTask={this.props.addNewTask} activeUser={this.props.activeUser} />

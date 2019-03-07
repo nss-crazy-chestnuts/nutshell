@@ -16,7 +16,7 @@ export default {
           body: JSON.stringify(obj)
         }).then(data => data.json())
       },
-      editTask(obj, id) {
+      updateTask(obj, id) {
         return fetch(`${Settings.remoteURL}/tasks/${id}`, {
           method: "PUT",
           headers: {

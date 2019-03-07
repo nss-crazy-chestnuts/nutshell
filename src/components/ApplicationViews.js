@@ -7,6 +7,7 @@ import ChatList from "./chat/ChatList"
 import FriendsList from "./Friends/FriendsLIst"
 import Login from "./Auth/Login"
 import TaskManager from "../modules/TaskManager";
+import TaskEditForm from "../components/task/TaskEditForm"
 
 class ApplicationViews extends Component {
   state = {
@@ -34,19 +35,29 @@ class ApplicationViews extends Component {
 
   completeTask = (obj, id) => {
     TaskManager.editTask(obj, id)
-    .then(() => TaskManager.getAll())
-    .then((tasks => this.setState({
+      .then(() => TaskManager.getAll())
+      .then((tasks => this.setState({
         tasks: tasks
       }))
-    )
+      )
   }
 
   addNewTask = (obj) => {
     TaskManager.addTask(obj)
-    .then(() => TaskManager.getAll())
-    .then((tasks => this.setState({
-      tasks: tasks
-    })))
+      .then(() => TaskManager.getAll())
+      .then((tasks => this.setState({
+        tasks: tasks
+      })))
+  }
+
+  updateTask = (task, id) => {
+    return TaskManager.updateTask(task, id)
+      .then(() => TaskManager.getAll())
+      .then(tasks =>
+        this.setState({
+          tasks: tasks
+        })
+      )
   }
 
 
@@ -84,6 +95,11 @@ class ApplicationViews extends Component {
           return <Redirect to="/login" />
         }
       }} />
+      <Route
+        path="/tasks/:taskId(\d+)/edit" render={props => {
+          return <TaskEditForm {...props} tasks={this.state.tasks} updateTask={this.updateTask} />
+        }}
+      />
       <Route exact path="/chat" render={props => {
         if (this.isAuthenticated()) {
           return <ChatList />
