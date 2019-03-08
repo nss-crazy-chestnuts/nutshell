@@ -360,7 +360,8 @@ class ApplicationViews extends Component {
             return <ChatList {...props}
               chats={this.state.chat}
               users={this.state.users}
-              activeUser={this.props.activeUser} />
+              activeUser={this.props.activeUser}
+              addFriend={this.props.addFriend} />
           } else {
             return <Redirect to="/login" />
           }
