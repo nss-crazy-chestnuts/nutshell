@@ -58,12 +58,14 @@ export default class Login extends Component {
 
   render() {
     return (
-      <form className="loginForm">
+      <section className="full-screen-bg">
+      <div className="align-middle">
+      <form className="loginForm" className="full-screen-bg">
       <div className="imageContainer">
       <img src={"../img/tree.jpg"} className="image"  />
       </div>
-        <h1 className="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
         <div className="login-form">
+        <h1 className="h3 mb-3 text-light font-weight-light text-center">Please sign in</h1>
           <div className="form-inline justify-content-center">
             <div className="form-group">
               <label htmlFor="inputUsername" className="sr-only">Username</label>
@@ -99,6 +101,9 @@ export default class Login extends Component {
           </div>
         </div>
       </form>
+      <h1 className="groupName">Crazy Chestnuts</h1>
+      </div>
+      </section>
     )
   }
 }
