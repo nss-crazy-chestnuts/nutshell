@@ -157,3 +157,20 @@ body {
   background-color: white;
   z-index: auto;
 }
+
+.friendButton {
+  width: 100px;
+}
+
+.friendAddButton {
+  width: 120px;
+  margin: 5px
+}
+.chatButton {
+  width: 60px;
+}
+
+.chatAddButton {
+  width: 120px;
+  margin: 5px
+}

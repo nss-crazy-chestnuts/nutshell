@@ -19,7 +19,7 @@ class ChatList extends Component {
             <section className="chats">
                 <h1>Chats</h1>
                 <button
-                    className="chatAddButton"
+                    className="chatAddButton btn btn-primary"
                     onClick={() => {
                         this.props.history.push("/chat/new")
                     }
@@ -29,19 +29,18 @@ class ChatList extends Component {
                     this.props.chats.sort(function (a, b) { return a.timestamp - b.timestamp })
                         .map(currentChat => {
                             return (
-                                <div key={currentChat.id} className="chatMessage">
+                                <div key={currentChat.id} className="card">
                                     <p className="chatMessageMainText">{currentChat.messageText}</p>
                                     <p className="chatMessageSubext">Posted by: <strong>{
                                         this.props.users.find(user => user.id === currentChat.userId).username
                                     }</strong> on {this.timeConverter(currentChat.timestamp)}</p>
                                     {
                                         (currentChat.userId === this.props.activeUser.id) ? (
-                                            <button type="button" className="chatEditButton"
+                                            <button type="button" className="chatButton btn btn-primary"
                                                 onClick={() => {
                                                     this.props.history.push(`/chat/${currentChat.id}/edit`);
                                                 }}>Edit</button>) : ("")
                                     }
-                                    <hr />
                                 </div>
                             )
                         })
