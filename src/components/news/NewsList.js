@@ -18,7 +18,9 @@ export default class NewsList extends Component {
                 </div>
                 <section className="newsSection">
                 {
-                    this.props.news.map(news =>
+                    this.props.news.sort(function (newsA, newsB) {
+                        return new Date(newsB.date) - new Date(newsA.date)})
+                        .map(news =>
                         <div key={news.id}>
                             <NewsItem news={news}
                                 history={this.props.history}
@@ -27,6 +29,7 @@ export default class NewsList extends Component {
                         </div>
                     )
                 }
+            }
                 </section>
             </React.Fragment>
         )
