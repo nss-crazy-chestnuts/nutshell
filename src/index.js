@@ -23,4 +23,5 @@ document.getElementById("coolButton").addEventListener("click", event => {
   document.getElementById("sunglasses").classList.toggle("sunglasses")
   document.getElementById("title").classList.toggle("spin")
   document.getElementById("fall").classList.toggle("fallingLeaves")
+  document.querySelectorAll(".card").forEach(currentCard => currentCard.classList.toggle("transparent"))
 })
