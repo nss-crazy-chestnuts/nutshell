@@ -17,7 +17,7 @@ class Nutshell extends Component {
  }
   render() {
     return <React.Fragment>
-      <div id="sunglasses"></div>
+      <div id="spinPhoto"></div>
       <div id="fall">
                 <span></span>
                 <span></span>

@@ -31,9 +31,6 @@ body {
   margin: 12px 0 0 0;
   font-size: 0.7em;
 }
-.fallingLeaves {
-  text-align: center;
-}
 .imageContainer {
   border: 2px solid #80631e;
   width: 100px;
@@ -47,6 +44,9 @@ body {
 .image {
   width: 180px;
   opacity: .65;
+}
+.fallingLeaves {
+  text-align: center;
 }
 
 .fallingLeaves span {
@@ -132,11 +132,105 @@ body {
 -webkit-transform: translate(250px, 1000px) rotateZ(360deg);
 }
 }
+.fallingSteves {
+  text-align: center;
+}
+
+.fallingSteves span {
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  margin: -280px 40px 54px  -34px;
+  background:url("https://media.licdn.com/dms/image/C4E03AQFBXqx46OaS7Q/profile-displayphoto-shrink_800_800/0?e=1557360000&v=beta&t=jPzLmioNjJM4AxSly_Xr6luEjxWUTN4r0kUenzU7xSo");
+  background-size: 75px 75px;
+  background-position: 0px 0px;
+  position: relative;
+  top: -200px;
+  border-radius: 100%;
+  z-index: 1;
+
+  -webkit-animation: fallingSteves 10s infinite  linear;
+  -moz-animation: fallingSteves 10s infinite  linear;
+}
+.fallingSteves span:nth-child(5n+5) {
+
+  -webkit-animation-delay: 1.3s;
+  -moz-animation-delay: 1.3s;
+}
+.fallingSteves span:nth-child(3n+2) {
+
+  -webkit-animation-delay: 1.5s;
+  -moz-animation-delay: 1.5s;
+}
+.fallingSteves span:nth-child(2n+5) {
+
+  -webkit-animation-delay: 1.7s;
+  -moz-animation-delay: 1.7s;
+}
+
+.fallingSteves span:nth-child(3n+10) {
+
+  -webkit-animation-delay: 2.7s;
+  -moz-animation-delay: 2.7s;
+}
+.fallingSteves span:nth-child(7n+2) {
+
+  -webkit-animation-delay: 3.5s;
+  -moz-animation-delay: 3.5s;
+}
+.fallingSteves span:nth-child(4n+5) {
+
+  -webkit-animation-delay: 5.5s;
+  -moz-animation-delay: 5.5s;
+}
+.fallingSteves span:nth-child(3n+7) {
+
+  -webkit-animation-delay: 8s;
+  -moz-animation-delay: 8s;
+}
+@-webkit-keyframes fallingSteves {
+0% {
+  opacity: 1;
+
+-webkit-transform: translate(0, 0px) rotateZ(0deg);
+}
+75% {
+  opacity: 1;
+
+-webkit-transform: translate(100px, 800px) rotateZ(270deg);
+}
+100% {
+  opacity: 0;
+
+-webkit-transform: translate(150px, 1000px) rotateZ(360deg);
+}
+}
+@-moz-keyframes fallingSteves {
+0% {
+  opacity: 1;
+
+-webkit-transform: translate(0, 0px) rotateZ(0deg);
+}
+75% {
+  opacity: 1;
+
+-webkit-transform: translate(150px, 650px) rotateZ(270deg);
+}
+100% {
+  opacity: 0;
+
+-webkit-transform: translate(250px, 1000px) rotateZ(360deg);
+}
+}
 
 
 .fire {
   background-image: url("https://i.newyorkupstate.com/resizer/krhMPqK10PKv4fxPyCv2NHv1o_Y=/600x0/arc-anglerfish-arc2-prod-advancelocal/public/O4XSX3FHDBB7JIUC4YPF7H4UDY.jpg");
   background-size: 100%
+}
+
+.goldenrod {
+  background-color: goldenrod
 }
 
 .sunglasses {
@@ -147,6 +241,21 @@ body {
   height: 200px;
   background-image: url("https://ak2.picdn.net/shutterstock/videos/859822/thumb/1.jpg");
   background-size: 270px 200px;
+  background-position: 0px 0px;
+  background-repeat: no-repeat;
+  font-family: cursive;
+  animation: App-logo-spin infinite 2s linear, rainbow infinite 1s alternate;
+  border-radius: 100%;
+  z-index: 2;
+}
+.steveSpin {
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  width: 200px;
+  height: 200px;
+  background-image: url("https://www.dropbox.com/s/p1xcktcqft69jmt/steve.jpg?raw=1");
+  background-size: 200px 200px;
   background-position: 0px 0px;
   background-repeat: no-repeat;
   font-family: cursive;
