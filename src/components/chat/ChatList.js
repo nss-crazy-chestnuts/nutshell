@@ -14,6 +14,10 @@ class ChatList extends Component {
         window.scrollTo(0,document.body.scrollHeight)
     }
 
+    componentDidMount() {
+        window.scrollTo(0,document.body.scrollHeight)
+    }
+
     render() {
         return (
             <section className="chats">
