@@ -38,7 +38,7 @@ export default class TaskCard extends Component {
                                 this.props.history.push(`/tasks/${this.props.task.id}/edit`);
                             }}
                         >Edit</button>
-                            <div class="form-check form-check-inline d-flex justify-content-end">
+                            <div className="form-check form-check-inline d-flex justify-content-end">
                                 <input
                                     className="form-check-input "
                                     name="completionStatus"

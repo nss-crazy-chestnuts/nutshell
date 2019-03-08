@@ -19,6 +19,7 @@ body {
   background:url("monster.png");
   position: relative;
   top: -200px;
+  z-index: 1;
 
   -webkit-animation: fallingLeaves 10s infinite  linear;
   -moz-animation: fallingLeaves 10s infinite  linear;
@@ -68,12 +69,12 @@ body {
 75% {
   opacity: 1;
 
--webkit-transform: translate(100px, 600px) rotateZ(270deg); 
+-webkit-transform: translate(100px, 800px) rotateZ(270deg); 
 }
 100% {
   opacity: 0;
 
--webkit-transform: translate(150px, 800px) rotateZ(360deg);
+-webkit-transform: translate(150px, 1000px) rotateZ(360deg);
 }
 }
 @-moz-keyframes fallingLeaves {
@@ -85,12 +86,12 @@ body {
 75% {
   opacity: 1;
 
--webkit-transform: translate(100px, 600px) rotateZ(270deg); 
+-webkit-transform: translate(150px, 650px) rotateZ(270deg); 
 }
 100% {
   opacity: 0;
 
--webkit-transform: translate(150px, 800px) rotateZ(360deg);
+-webkit-transform: translate(250px, 1000px) rotateZ(360deg);
 }
 }
 
@@ -113,6 +114,7 @@ body {
   font-family: cursive;
   animation: App-logo-spin infinite 2s linear, rainbow infinite 1s alternate;
   border-radius: 100%;
+  z-index: 2;
 }
 
 @keyframes example {
