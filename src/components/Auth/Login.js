@@ -62,6 +62,7 @@ export default class Login extends Component {
         <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
         <label htmlFor="inputUsername">Username</label>
         <input
+        className="form-control col-md-3"
           onChange={this.handleFieldChange}
           type="username"
           id="username"
@@ -71,18 +72,21 @@ export default class Login extends Component {
         />
         <label htmlFor="inputPassword">Password</label>
         <input
+        className="form-control col-md-3"
           onChange={this.handleFieldChange}
           type="password"
           id="password"
           placeholder={` Don't tell!`}
           required=""
         />
-        <button type="submit" onClick={this.handleLogin}>
+        <div className="my-2">
+        <button className="btn btn-primary mr-1" type="submit" onClick={this.handleLogin}>
           Sign in
         </button>
-        <button type="submit" onClick={this.handleRegister}>
+        <button className="btn btn-warning" type="submit" onClick={this.handleRegister}>
           Register
         </button>
+        </div>
       </form>
     )
   }
