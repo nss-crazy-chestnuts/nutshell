@@ -18,7 +18,6 @@ class Nutshell extends Component {
   render() {
     return <React.Fragment>
       <div id="sunglasses"></div>
-      <button id="coolButton" className="btn btn-danger mb-5 ml-4">Kool Mode</button>
       <div id="fall">
                 <span></span>
                 <span></span>

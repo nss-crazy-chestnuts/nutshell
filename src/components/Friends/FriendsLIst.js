@@ -3,10 +3,10 @@ import React, { Component } from 'react'
 class FriendList extends Component {
     render() {
         return (
-            <section className="friends">
+            <section >
                 <h1>Friends</h1>
                 <button
-                    className="friendAddButton"
+                    className="friendAddButton btn btn-primary"
                     onClick={() => {
                         this.props.history.push("/friends/new")
                     }
@@ -15,13 +15,13 @@ class FriendList extends Component {
                     this.props.expandedFriends
                         .filter(friend => friend.user.id === parseInt(sessionStorage.getItem("credentials")))
                         .map(friend => {
-                            return <div key={friend.id}>
+                            return <div className="card" key={friend.id}>
                                 {this.props.users.find(user => user.id === friend.friendId).username}
-                                <button onClick={() => this.props.deleteFriend(friend.id)}>Delete</button>
+                                <button className="friendButton btn btn-primary" onClick={() => this.props.deleteFriend(friend.id)}>Delete</button>
                             </div>
                         })
                 }
-                <div className="friendContainer">
+                <div className="friendButton friendContainer">
                 </div>
             </section>
         )
