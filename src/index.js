@@ -16,12 +16,3 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister()
-
-document.getElementById("coolButton").addEventListener("click", event => {
-  new Audio('https://dl.dropbox.com/s/bjys9xln30r5kn1/motley.mp3?dl=0').play()
-  document.body.classList.toggle("fire")
-  document.getElementById("sunglasses").classList.toggle("sunglasses")
-  document.getElementById("title").classList.toggle("spin")
-  document.getElementById("fall").classList.toggle("fallingLeaves")
-  document.querySelectorAll(".card").forEach(currentCard => currentCard.classList.toggle("transparent"))
-})
