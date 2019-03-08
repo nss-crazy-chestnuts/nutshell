@@ -59,30 +59,45 @@ export default class Login extends Component {
   render() {
     return (
       <form className="loginForm">
-        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label htmlFor="inputUsername">Username</label>
-        <input
-          onChange={this.handleFieldChange}
-          type="username"
-          id="username"
-          placeholder={` Something Cool`}
-          required=""
-          autoFocus=""
-        />
-        <label htmlFor="inputPassword">Password</label>
-        <input
-          onChange={this.handleFieldChange}
-          type="password"
-          id="password"
-          placeholder={` Don't tell!`}
-          required=""
-        />
-        <button type="submit" onClick={this.handleLogin}>
-          Sign in
+      <div className="imageContainer">
+      <img src={"../img/tree.jpg"} className="image"  />
+      </div>
+        <h1 className="h3 mb-3 font-weight-normal text-center">Please sign in</h1>
+        <div className="login-form">
+          <div className="form-inline justify-content-center">
+            <div className="form-group">
+              <label htmlFor="inputUsername" className="sr-only">Username</label>
+              <input
+                className="form-control mr-1"
+                onChange={this.handleFieldChange}
+                type="username"
+                id="username"
+                placeholder={`Username`}
+                required=""
+                autoFocus=""
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputPassword" className="sr-only">Password</label>
+              <input
+                className="form-control mr-1"
+                onChange={this.handleFieldChange}
+                type="password"
+                id="password"
+                placeholder={`password`}
+                required=""
+              />
+              <div className="my-2">
+                <button className="btn btn-primary mr-1" type="submit" onClick={this.handleLogin}>
+                  Sign in
         </button>
-        <button type="submit" onClick={this.handleRegister}>
-          Register
+                <button className="btn btn-warning" type="submit" onClick={this.handleRegister}>
+                  Register
         </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </form>
     )
   }

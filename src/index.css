@@ -11,6 +11,20 @@ body {
 .fallingLeaves {
   text-align: center;
 }
+.imageContainer {
+  border: 3px solid #1d3916;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  overflow: hidden;
+  margin: auto;
+  margin-bottom: 15px;
+}
+
+.image {
+  width: 180px;
+}
+
 .fallingLeaves span {
   display: inline-block;
   width: 40px;
@@ -69,7 +83,7 @@ body {
 75% {
   opacity: 1;
 
--webkit-transform: translate(100px, 800px) rotateZ(270deg); 
+-webkit-transform: translate(100px, 800px) rotateZ(270deg);
 }
 100% {
   opacity: 0;
@@ -86,7 +100,7 @@ body {
 75% {
   opacity: 1;
 
--webkit-transform: translate(150px, 650px) rotateZ(270deg); 
+-webkit-transform: translate(150px, 650px) rotateZ(270deg);
 }
 100% {
   opacity: 0;
