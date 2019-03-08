@@ -21,7 +21,7 @@ import TaskEditForm from "../components/task/TaskEditForm"
 import API from "../modules/EventManager"
 import EventForm from "./event/EventForm"
 import EventEditForm from "./event/EventEditForm"
-
+import "./common.css"
 
 class ApplicationViews extends Component {
   state = {
@@ -94,7 +94,6 @@ class ApplicationViews extends Component {
       })
 
   };
-
 
 
 
@@ -221,6 +220,15 @@ class ApplicationViews extends Component {
         })
       )
   }
+  patchTask = (task, id) => {
+    return TaskManager.patchTask(task, id)
+      .then(() => TaskManager.getAll())
+      .then(tasks =>
+        this.setState({
+          tasks: tasks
+        })
+      )
+  }
 
   isAuthenticated = () => sessionStorage.getItem("credentials") !== null
 
@@ -332,7 +340,9 @@ class ApplicationViews extends Component {
         }} />
         <Route exact path="/tasks" render={props => {
           if (this.isAuthenticated()) {
-            return <TaskList {...props} tasks={this.state.tasks}
+            return <TaskList {...props}
+              patchTask={this.patchTask}
+              tasks={this.state.tasks}
               activeUser={this.props.activeUser}
               completeTask={this.completeTask}
               addNewTask={this.addNewTask} />

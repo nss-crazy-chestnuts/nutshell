@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import "./event.css"
+
 
 class EventsList extends Component {
-
-
-
 
     render() {
         let flag = true;
@@ -24,11 +23,6 @@ class EventsList extends Component {
                 /*<section className="animals"> */}
                 <h1>Events List</h1>
                 {
-
-
-
-
-
                     this.props.events.filter(function (event) {
                         if (new Date(event.eventDate) > new Date()) {
                             return event
@@ -37,7 +31,7 @@ class EventsList extends Component {
                         return new Date(eventA.eventDate) - new Date(eventB.eventDate);
                     }).map(event =>
 
-                        <div key={event.id} className={`card ${(event.userId != sessionStorage.getItem("credentials")) ? "friendItem" : ""}${flag ? "firstEvent" : ""}`}>
+                        <div key={event.id} className={`card ${(event.userId != sessionStorage.getItem("credentials")) ? "friendItem " : ""}${flag ? "firstEvent" : ""}`}>
                             {flag = false}
                             <div className="card-body">
                                 <h5 className="card-title">
@@ -48,13 +42,14 @@ class EventsList extends Component {
                                     <div>
                                         Location: {event.eventLocation}
                                     </div>
-
-                                    {
-                                        (event.userId === sessionStorage.getItem("credentials")) ? (
-                                            <>
-                                                <div>
+                                     <div>
                                                     Date: {event.eventDate}
                                                 </div>
+                                    {
+
+                                        (event.userId === sessionStorage.getItem("credentials")) ? (
+                                            <>
+
 
                                                 <button
                                                     type="button"
@@ -66,17 +61,12 @@ class EventsList extends Component {
                                                     Edit
                                                  </button>
 
-
-
-
                                                 <a href="#"
                                                     onClick={() => this.props.deleteEvent(event.id)}
                                                     className="card-link">Delete</a>
-
                                             </>
                                         ) : ("")
                                     }
-
                                 </h5>
                             </div>
                         </div>
@@ -84,10 +74,6 @@ class EventsList extends Component {
                 }
                 {/* </section> */}
             </React.Fragment>
-
-
-
-
         );
     }
 }
