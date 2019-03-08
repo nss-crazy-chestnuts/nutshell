@@ -39,7 +39,6 @@ class ApplicationViews extends Component {
         API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
 
 
-
           const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
           idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
 
@@ -257,9 +256,6 @@ class ApplicationViews extends Component {
       .then(allTasks => newState.tasks = allTasks)
 
       .then(() => API.GET(`friendships?userId=${currentUserId}`)).then(parsedFriendIds => {
-
-
-
         const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
         idsNeededArray.push(parseInt(currentUserId))
         let eventsQuery = ""
