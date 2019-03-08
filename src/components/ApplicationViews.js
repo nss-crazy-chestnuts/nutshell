@@ -36,94 +36,36 @@ class ApplicationViews extends Component {
   deleteEvent = id => {
     API.DELETE("events", id)
       .then(() => {
-        API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
-
-
-
-          const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-          idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
-
-          let eventsQuery = ""
-          //create part of the query that will be used in the api
-          idsNeededArray.forEach(id => {
-            eventsQuery += `userId=${id}&_expand=user&`
-
-            return eventsQuery
-          })
-          return eventsQuery
-        })
-          .then(eventsQuery => {
-            return API.GET(`events?${eventsQuery}`)
-          }).then(parsedEvents => {
+        API.getEventsQuery(`friendships?userId=${sessionStorage.getItem("credentials")}`, sessionStorage.getItem("credentials"))
+          .then(parsedEvents => {
             this.setState({
               events: parsedEvents
             })
           })
       })
-
   }
 
   updateEvent = (editedEventObject) => {
-
     return API.EDIT(`events/${editedEventObject.id}`, editedEventObject)
       .then(() => {
-        let eventsQuery = ""
-        return API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
-
-
-
-          const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-          idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
-
-
-          //create part of the query that will be used in the api
-          idsNeededArray.forEach(id => {
-            eventsQuery += `userId=${id}&_expand=user&`
-
-            return eventsQuery
-          })
-          return eventsQuery
-        })
-          .then(eventsQuery => {
-            return API.GET(`events?${eventsQuery}`)
-          }).then(parsedEvents => {
+        return API.getEventsQuery(`friendships?userId=${sessionStorage.getItem("credentials")}`, sessionStorage.getItem("credentials"))
+         .then(parsedEvents => {
             this.setState({
               events: parsedEvents
             })
           })
       })
-
   };
 
-
-
   addEvent = event =>
-
     API.POST("events", event).then(() => {
-      API.GET(`friendships?userId=${sessionStorage.getItem("credentials")}`).then(parsedFriendIds => {
-
-
-
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-        idsNeededArray.push(parseInt(sessionStorage.getItem("credentials")))
-
-        let eventsQuery = ""
-        //create part of the query that will be used in the api
-        idsNeededArray.forEach(id => {
-          eventsQuery += `userId=${id}&_expand=user&`
-
-          return eventsQuery
+      API.getEventsQuery(`friendships?userId=${sessionStorage.getItem("credentials")}`, sessionStorage.getItem("credentials"))
+       .then(parsedEvents => {
+          this.setState({
+            events: parsedEvents
+          })
         })
-        return eventsQuery
-      })
-   .then(eventsQuery => {
-      return API.GET(`events?${eventsQuery}`)
-    }).then(parsedEvents => {
-      this.setState({
-        events: parsedEvents
-      })
     })
-  })
 
   updateNews = editedNewsObject =>
     NewsManager.updateNews(editedNewsObject)
@@ -141,7 +83,7 @@ class ApplicationViews extends Component {
 
   deleteNews = id =>
     NewsManager.delete(id)
-    .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
+      .then(() => NewsManager.getUserNews(parseInt(sessionStorage.getItem("credentials")))
         .then(parsedNews => {
           this.setState({ news: parsedNews })
         }))
@@ -255,34 +197,11 @@ class ApplicationViews extends Component {
       .then(parsedNews => { newState.news = parsedNews })
       .then(TaskManager.getAll)
       .then(allTasks => newState.tasks = allTasks)
-
-      .then(() => API.GET(`friendships?userId=${currentUserId}`)).then(parsedFriendIds => {
-
-
-
-        const idsNeededArray = parsedFriendIds.map(friendObject => friendObject.friendId);
-        idsNeededArray.push(parseInt(currentUserId))
-        let eventsQuery = ""
-        //create part of the query that will be used in the api
-        idsNeededArray.forEach(id => {
-          eventsQuery += `userId=${id}&_expand=user&`
-        });
-        return eventsQuery
-      }).then(eventsQuery => {
-        return API.GET(`events?${eventsQuery}`)
-      }).then(parsedEvents => { newState.events = parsedEvents })
-
-
-
+      .then(() => API.getEventsQuery(`friendships?userId=${currentUserId}`, sessionStorage.getItem("credentials")))
+      .then(parsedEvents => {
+        newState.events = parsedEvents })
       .then(() => this.setState(newState))
   }
-
-
-
-
-
-
-
 
   render() {
     return (

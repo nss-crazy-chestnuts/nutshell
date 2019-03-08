@@ -49,8 +49,6 @@ class EventsList extends Component {
 
                                         (event.userId === sessionStorage.getItem("credentials")) ? (
                                             <>
-
-
                                                 <button
                                                     type="button"
                                                     className="btn btn-success"
