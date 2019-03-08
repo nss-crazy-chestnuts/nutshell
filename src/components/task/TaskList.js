@@ -19,7 +19,7 @@ export default class TaskList extends Component {
                     // filter by userId and pass to card component
                         this.props.tasks.filter(task =>
                             task.completionStatus === false
-                            && task.userId === this.props.activeUser.id)
+                            && task.userId === this.props.activeUser.id).reverse()
                             .map(task =>
                                 <TaskCard key={task.id} task={task} {...this.props} />
                             )
