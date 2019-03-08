@@ -101,6 +101,7 @@ export default class Login extends Component {
           </div>
         </div>
       </form>
+      <h1 className="groupName">Crazy Chestnuts</h1>
       </div>
       </section>
     )
